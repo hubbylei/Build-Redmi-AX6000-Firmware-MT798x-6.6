@@ -11,27 +11,31 @@ git clone --filter=blob:none --depth 1 --single-branch https://github.com/hubbyl
 git clone --filter=blob:none --depth 1 --single-branch https://github.com/hubbylei/openwrt-cdnspeedtest -b master package/custom/openwrt-cdnspeedtest
 git clone --filter=blob:none --depth 1 --single-branch https://github.com/hubbylei/luci-app-cloudflarespeedtest -b main package/custom/luci-app-cloudflarespeedtest
 git clone --filter=blob:none --depth 1 --single-branch https://github.com/hubbylei/luci-theme-bootstrap-mod -b main package/custom/luci-theme-bootstrap-mod
+git clone --filter=blob:none --depth 1 --single-branch https://git.hubbylei.dynu.net:86/immortalwrt/packages -b master package/custom/IMM_Package
 
 cp -rf package/custom/openwrt-passwall/luci-app-passwall package/custom/
 rm -rf package/custom/passwall-packages/.git*
 cp -rf package/custom/passwall-packages/* package/custom/
 cp -rf package/custom/openwrt-cdnspeedtest/cdnspeedtest package/custom/
+cp -rf package/custom/IMM_Package/net/net-snmp package/custom/
 rm -rf package/custom/openwrt-passwall
 rm -rf package/custom/passwall-packages
 rm -rf package/custom/openwrt-cdnspeedtest
+rm -rf package/custom/IMM_Package
 
 del_data=$(ls package/custom)
 for data in ${del_data}
 do
-    isdel=$(find feeds -iname "${data}")
-    if [[ -n ${isdel} && -d ${isdel} ]];then
-        rm -rf ${isdel}
-        echo "Deleted ${isdel}"
+    feed_data=$(find feeds -name "${data}")
+    if [[ -n ${feed_data} && -f ${feed_data}/Makefile ]];then
+        rm -rf ${feed_data}
+        echo "Deleted ${feed_data}"
     fi
 done
 
 sed -i '/sed -r -i/a\\tsed -i "s,#Port 22,Port 22,g" $(1)\/etc\/ssh\/sshd_config\n\tsed -i "s,#ListenAddress 0.0.0.0,ListenAddress 0.0.0.0,g" $(1)\/etc\/ssh\/sshd_config\n\tsed -i "s,#PermitRootLogin prohibit-password,PermitRootLogin yes,g" $(1)\/etc\/ssh\/sshd_config' feeds/packages/net/openssh/Makefile
 sed -i 's/;Listen = 0.0.0.0:1688/Listen = 0.0.0.0:1688/g' feeds/packages/net/vlmcsd/files/vlmcsd.ini
+sed -i 's/\/host//g' feeds/packages/lang/python/python-ubus/Makefile
 
 GEOIP_VER=$(echo -n `curl -sL -H "${AUTH}" https://api.github.com/repos/Loyalsoldier/v2ray-rules-dat/releases/latest | jq -r .tag_name`)
 GEOIP_HASH=$(echo -n `curl -sL -H "${AUTH}" https://github.com/Loyalsoldier/v2ray-rules-dat/releases/download/${GEOIP_VER}/geoip.dat.sha256sum | awk '{print $1}'`)
