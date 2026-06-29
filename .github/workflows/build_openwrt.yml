@@ -39,8 +39,8 @@ jobs:
       - name: Load custom configure
         run: |
           cp -vf ${GITHUB_WORKSPACE}/$DIY_SH ${GITHUB_WORKSPACE}/openwrt/
-          sed -i '/define Device\/xiaomi_redmi-router-ax6000-stock/,/TARGET_DEVICES += xiaomi_redmi-router-ax6000-stock/d' ${GITHUB_WORKSPACE}/openwrt/target/linux/mediatek/image/filogic.mk
-          cat ${GITHUB_WORKSPACE}/image.mk >> ${GITHUB_WORKSPACE}/openwrt/target/linux/mediatek/image/filogic.mk
+          cp -vf ${GITHUB_WORKSPACE}/ax6000.dts ${GITHUB_WORKSPACE}/target/linux/mediatek/dts/mt7986a-xiaomi-redmi-router-ax6000-mtkuboot.dts
+          cat ${GITHUB_WORKSPACE}/ax6000.mk >> ${GITHUB_WORKSPACE}/openwrt/target/linux/mediatek/image/filogic.mk
           cd ${GITHUB_WORKSPACE}/openwrt
           chmod a+x $DIY_SH
           ./scripts/feeds update -a

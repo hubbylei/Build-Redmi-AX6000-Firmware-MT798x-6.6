@@ -65,3 +65,8 @@ rm -rf /tmp/frp-0.66.0.tar.gz
 sed -i 's/PKG_VERSION:=.*/PKG_VERSION:=0.66.0/g' feeds/packages/net/frp/Makefile
 sed -i 's/PKG_HASH:=.*/PKG_HASH:='${FRP_PKG_SHA}'/g' feeds/packages/net/frp/Makefile
 sed -i 's/\$(2)_full.ini/legacy\/\$(2)_legacy_full.ini/g' feeds/packages/net/frp/Makefile
+
+sed -i '/xiaomi,redmi-router-ax6000-stock/i\xiaomi,redmi-router-ax6000-mtkuboot|\\' package/boot/uboot-envtools/files/mediatek_filogic
+sed -i '/xiaomi,redmi-router-ax6000-stock/i\\txiaomi,redmi-router-ax6000-mtkuboot|\\' target/linux/mediatek/base-files/lib/preinit/05_set_preinit_iface
+sed -i '/xiaomi,redmi-router-ax6000-stock/i\xiaomi,redmi-router-ax6000-mtkuboot|\\' target/linux/mediatek/filogic/base-files/etc/board.d/01_leds
+sed -i '/xiaomi,redmi-router-ax6000-stock/i\\txiaomi,redmi-router-ax6000-mtkuboot|\\' target/linux/mediatek/filogic/base-files/etc/board.d/02_network
