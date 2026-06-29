@@ -47,7 +47,7 @@ jobs:
           ./$DIY_SH
           ./scripts/feeds update -i
           ./scripts/feeds install -a
-          cp -f ${GITHUB_WORKSPACE}/$CONFIG_FILE ${GITHUB_WORKSPACE}/openwrt/.config
+          cp -rf ${GITHUB_WORKSPACE}/$CONFIG_FILE ${GITHUB_WORKSPACE}/openwrt/.config
           make defconfig
 
       - name: Download package
